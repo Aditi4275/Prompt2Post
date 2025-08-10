@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables and secrets
+.env
+
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+.idea/
+
+# Output files
+*.mp3
+*.wav
+*.ogg
+*.m4a
+*.log
+
+# Video fragments and generated videos
+fragments/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.m4v
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Test and cache files
+*.pytest_cache/
