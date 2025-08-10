@@ -1,5 +1,3 @@
-# app.py
-# Corrected script with a working OpenRouter key test function, fixed typos, and safe flow.
 
 import os
 import glob
@@ -20,15 +18,13 @@ except Exception:
 # ==== CONFIG (env vars preferred) ====
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")  # e.g., "21m00Tcm4TlvDq8ikWAM"
+VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")  
 
-MODEL_ID = "moonshotai/kimi-k2:free"  # change to another available model if desired
+MODEL_ID = "moonshotai/kimi-k2:free"  
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 ELEVENLABS_TTS_URL = "https://api.elevenlabs.io/v1/text-to-speech"
 
-# Optional: align audio length to video
-ALIGN_AUDIO_TO_VIDEO = False  # set True to trim/loop audio to match video duration (requires ffmpeg)
-
+ALIGN_AUDIO_TO_VIDEO = False  
 
 # ==== UTILITIES ====
 def require_bin(cmd_name: str):

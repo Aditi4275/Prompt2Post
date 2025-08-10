@@ -12,6 +12,7 @@ venv/
 .venv/
 env/
 ENV/
+.streamlit/
 
 # OS files
 .DS_Store
@@ -29,7 +30,8 @@ Thumbs.db
 *.log
 
 # Video fragments and generated videos
-fragments/
+templates/
+outputs/
 *.mp4
 *.mov
 *.mkv
