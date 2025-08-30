@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Prompt2Post
 
 This project provides tools to create short videos with AI-generated scripts and voiceovers. It features both a Streamlit web application for an interactive user interface and a command-line interface (CLI) for automated or batch processing. Additionally, a utility script is included for splitting video files.
@@ -11,8 +10,6 @@ This project provides tools to create short videos with AI-generated scripts and
 *   **Multiple Interfaces:**
     *   **Streamlit Web App (`app.py`):** An interactive graphical interface for easy use.
     *   **Command-Line Interface (`cli.py`):** A text-based interface for more control and scripting.
-    *   **Enhanced Video Maker (`video_maker.py`):** A simplified script that randomly selects video clips and adds text overlays.
-*   **Video Splitting Utility (`split.py`):** A standalone script to divide large video files into smaller fragments.
 
 
 ## Getting Started
@@ -28,13 +25,13 @@ Before running the application, ensure you have the following installed:
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository_url> # Replace <repository_url> with the actual URL
+    git clone https://github.com/Aditi4275/Prompt2Post.git 
     cd tr
     ```
 2.  **Create a virtual environment (recommended):**
     ```bash
     python -m venv .venv
-    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    source .venv/bin/activate  
     ```
 3.  **Install dependencies:**
     ```bash
@@ -45,7 +42,7 @@ Before running the application, ensure you have the following installed:
 
 This project requires API keys for OpenRouter and ElevenLabs.
 
-1.  **Create a `.env` file:** In the root directory of the project (`tr/`), create a file named `.env`.
+1.  **Create a `.env` file:** In the root directory of the project, create a file named `.env`.
 2.  **Add your API keys to `.env`:**
     ```
     OPENROUTER_API_KEY="YOUR_OPENROUTER_API_KEY"
@@ -74,21 +71,6 @@ Or use the provided startup script:
 
 This will open the application in your web browser. You can select a trending topic or enter a custom topic, then generate a video.
 
-### Enhanced Video Maker (New)
-
-To use the enhanced video maker that randomly selects video clips and adds text overlays:
-
-```bash
-python video_maker.py
-```
-
-Or use the provided shell script:
-
-```bash
-./run_video_maker.sh
-```
-
-The script will prompt you for a topic, then generate a script, select a random video clip, add a voiceover and text overlay, and create the final video.
 
 ### Command-Line Interface (CLI) Tool
 
@@ -99,27 +81,12 @@ python cli.py
 ```
 The script will guide you through selecting a video, providing a voiceover prompt, and generating the final video.
 
-### Video Splitting Utility
-
-To split a video file into fragments:
-
-```bash
-python split.py
-```
-**Note:** You may need to modify `split.py` to specify your `input.mp4` and desired `output_dir` and `fragment_duration`.
 
 ## Deployment
 
 For deployment instructions, see `README_STREAMLIT.md` which contains specific guidance for deploying to Streamlit Cloud.
 
-## Future Enhancements
 
-*   Integrate a real-time trending topics API (e.g., Google Trends API via SerpApi) into `app.py` to replace the hardcoded placeholders.
-*   Allow users to upload their own video footage instead of using a black screen.
-*   Add more advanced video editing features.
-*   Improve the text overlay formatting and positioning.
-*   Add support for multiple languages in the voiceover.
-*   Implement a web API for the video maker functionality.
 =======
 # 🎬 Prompt2Post
 
@@ -168,4 +135,3 @@ Whether you prefer a beautiful Streamlit web interface or a fast command-line to
    ```
 
 💡 Tip: Use the CLI for automation & batch processing, and the Streamlit app for experimentation & creativity!
->>>>>>> 70833c3f99629a2555cc20a8cbf1eba986d42b76

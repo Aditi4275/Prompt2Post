@@ -5,7 +5,6 @@ from pathlib import Path
 import streamlit as st
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
 # Import our modules
@@ -17,7 +16,7 @@ except ImportError as e:
     st.error(f"Error importing modules: {e}")
     st.stop()
 
-# ---- API Keys (try secrets first, then env variables) ----
+# ---- API Keys Configuration ----
 try:
     OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
     ELEVENLABS_API_KEY = st.secrets["ELEVENLABS_API_KEY"]
@@ -42,7 +41,7 @@ st.markdown("Turn any topic into engaging videos with AI-generated scripts and v
 # ---- Sidebar ----
 with st.sidebar:
     
-    st.header("### How to Use")
+    st.header("How to Use")
     st.markdown("""
     1. Enter a topic or select a trending one
     2. Click 'Generate Video'
@@ -52,7 +51,7 @@ with st.sidebar:
     
 
 # ---- Main Content ----
-# Trending topics
+
 trending_topics = [
     "Minecraft parkour clutch",
     "AITA wild twist",
@@ -91,7 +90,7 @@ generate_button = st.button("🚀 Generate Video", type="primary", use_container
 
 # ---- Video Generation Process ----
 if generate_button:
-    # Validate inputs
+    
     if not topic:
         st.error("Please select a topic or enter a custom one!")
         st.stop()
