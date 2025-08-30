@@ -67,11 +67,22 @@ def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str
     
     try:
         resp = requests.post(url, json=data, headers=headers, timeout=60)
+    except requests.ConnectionError as e:
+        raise RuntimeError(f"Network connection error - Unable to reach ElevenLabs API. Please check your internet connection and try again. Error: {e}")
+    except requests.Timeout as e:
+        raise RuntimeError(f"Request to ElevenLabs API timed out. Please try again. Error: {e}")
     except requests.RequestException as e:
         raise RuntimeError(f"ElevenLabs request failed: {e}")
     
     if resp.status_code != 200:
-        raise RuntimeError(f"ElevenLabs API error: {resp.status_code} {resp.text}")
+        if resp.status_code == 401:
+            raise RuntimeError("ElevenLabs API authentication failed. Please check your API key and voice ID.")
+        elif resp.status_code == 400:
+            raise RuntimeError("ElevenLabs API bad request. Please check your request parameters.")
+        elif resp.status_code == 429:
+            raise RuntimeError("ElevenLabs API rate limit exceeded. Please wait before making another request.")
+        else:
+            raise RuntimeError(f"ElevenLabs API error: {resp.status_code} {resp.text}")
 
     with open(output_audio, "wb") as f:
         f.write(resp.content)

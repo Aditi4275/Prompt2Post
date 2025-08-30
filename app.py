@@ -137,7 +137,7 @@ if generate_button:
         Path("outputs").mkdir(exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         final_video = f"outputs/video_{timestamp}.mp4"
-        merge_audio_video(video_wsith_text, audio_path, final_video)
+        merge_audio_video(video_with_text, audio_path, final_video)
         progress_bar.progress(90)
         
         # Clean up temporary files
@@ -173,7 +173,7 @@ if generate_button:
         with result_col2:
             st.subheader("📝 Generated Script")
             st.text_area("", value=script, height=200)
-
+            
             st.subheader("#️⃣ Suggested Hashtags")
             hashtags = "#shorts #ai #trending #viral #funny #facts #storytime #gaming"
             st.text_area("", value=hashtags, height=100)
