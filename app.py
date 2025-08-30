@@ -7,16 +7,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Import our modules
 try:
-    from src.utils.ai_services import generate_script, generate_audio, test_openrouter
+    from src.utils.ai_services import generate_script, generate_audio, generate_hashtags, test_openrouter
     from src.utils.video_processing import add_text_overlay, merge_audio_video
     from src.utils.helpers import require_bin, select_random_fragment
 except ImportError as e:
     st.error(f"Error importing modules: {e}")
     st.stop()
 
-# ---- API Keys Configuration ----
 try:
     OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
     ELEVENLABS_API_KEY = st.secrets["ELEVENLABS_API_KEY"]
@@ -26,7 +24,6 @@ except:
     ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
     VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 
-# ---- Streamlit Page Config ----
 st.set_page_config(
     page_title="Prompt2Post",
     page_icon="🎬",
@@ -40,7 +37,6 @@ st.markdown("Turn any topic into engaging videos with AI-generated scripts and v
 
 # ---- Sidebar ----
 with st.sidebar:
-    
     st.header("How to Use")
     st.markdown("""
     1. Enter a topic or select a trending one
@@ -51,7 +47,7 @@ with st.sidebar:
     
 
 # ---- Main Content ----
-
+# Trending topics
 trending_topics = [
     "Minecraft parkour clutch",
     "AITA wild twist",
@@ -90,7 +86,6 @@ generate_button = st.button("🚀 Generate Video", type="primary", use_container
 
 # ---- Video Generation Process ----
 if generate_button:
-    
     if not topic:
         st.error("Please select a topic or enter a custom one!")
         st.stop()
@@ -100,7 +95,6 @@ if generate_button:
         st.stop()
     
     try:
-        # Check required tools
         require_bin("ffmpeg")
         require_bin("ffprobe")
         
@@ -121,23 +115,32 @@ if generate_button:
         script = generate_script(topic)
         progress_bar.progress(40)
         
-        # Step 3: Generate audio
+        # Step 3: Generate hashtags
+        status_text.text(f"🏷️ Suggested hashtags for '{topic}'...")
+        try:
+            hashtags = generate_hashtags(topic)
+        except Exception as e:
+            st.warning(f"Could not generate hashtags: {e}. Using default hashtags.")
+            hashtags = "#shorts #ai #trending #viral"
+        progress_bar.progress(50)
+        
+        # Step 4: Generate audio
         status_text.text("🎙️ Generating voiceover...")
         audio_path = generate_audio(script, "voiceover.mp3")
         progress_bar.progress(60)
         
-        # Step 4: Select random video fragment
+        # Step 5: Select random video fragment
         status_text.text("🎬 Selecting video fragment...")
         fragment_path = select_random_fragment()
         progress_bar.progress(70)
         
-        # Step 5: Add text overlay
+        # Step 6: Add text overlay
         status_text.text("📝 Adding text overlay...")
         video_with_text = "video_with_text.mp4"
         add_text_overlay(fragment_path, script, video_with_text)
         progress_bar.progress(80)
         
-        # Step 6: Merge audio and video
+        # Step 7: Merge audio and video
         status_text.text("🎥 Creating final video...")
         Path("outputs").mkdir(exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -178,9 +181,8 @@ if generate_button:
         with result_col2:
             st.subheader("📝 Generated Script")
             st.text_area("", value=script, height=200)
-            
-            st.subheader("#️⃣ Suggested Hashtags")
-            hashtags = "#shorts #ai #trending #viral #funny #facts #storytime #gaming"
+
+            st.subheader("🏷️ Suggested Hashtags")
             st.text_area("", value=hashtags, height=100)
             
             st.subheader("📊 Video Details")
@@ -192,4 +194,4 @@ if generate_button:
 
 # ---- Footer ----
 st.markdown("---")
-st.markdown("Made with ❤️ by [Aditi](https://github.com/Aditi4275)")
+st.markdown("Made with ❤️ [Aditi](https://github.com/Aditi4275/Prompt2Post)")
