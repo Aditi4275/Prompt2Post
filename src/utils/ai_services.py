@@ -5,6 +5,7 @@ from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID
 
 def generate_script(topic: str) -> str:
     """Generate a script using OpenRouter API."""
+    # Use environment variable if module variable is None
     api_key = OPENROUTER_API_KEY or os.getenv("OPENROUTER_API_KEY")
     
     if not api_key:
@@ -40,45 +41,9 @@ def generate_script(topic: str) -> str:
     except (KeyError, json.JSONDecodeError) as e:
         raise RuntimeError(f"Unexpected OpenRouter response format: {e}\nBody: {resp.text[:500]}")
 
-def generate_hashtags(topic: str) -> str:
-    """Generate relevant hashtags using OpenRouter API."""
-    api_key = OPENROUTER_API_KEY or os.getenv("OPENROUTER_API_KEY")
-    
-    if not api_key:
-        raise EnvironmentError("OPENROUTER_API_KEY is not set.")
-    
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    
-    data = {
-        "model": MODEL_ID,
-        "messages": [
-            {"role": "system", "content": "You are a social media expert. Generate 5-8 relevant hashtags for a short video about the given topic. Return only the hashtags separated by spaces, starting with #."},
-            {"role": "user", "content": f"Generate hashtags for a short video about: {topic}"}
-        ],
-        "max_tokens": 100,
-        "temperature": 0.7
-    }
-    
-    try:
-        resp = requests.post(OPENROUTER_URL, headers=headers, json=data, timeout=30)
-    except requests.RequestException as e:
-        raise RuntimeError(f"OpenRouter request failed: {e}")
-    
-    if resp.status_code != 200:
-        raise RuntimeError(f"OpenRouter API error: {resp.status_code} {resp.text}")
-
-    try:
-        payload = resp.json()
-        content = payload["choices"][0]["message"]["content"].strip()
-        return content
-    except (KeyError, json.JSONDecodeError) as e:
-        raise RuntimeError(f"Unexpected OpenRouter response format: {e}\nBody: {resp.text[:500]}")
-
 def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str:
     """Generate audio using ElevenLabs API."""
+    # Use environment variable if module variable is None
     api_key = ELEVENLABS_API_KEY or os.getenv("ELEVENLABS_API_KEY")
     voice_id = VOICE_ID or os.getenv("ELEVENLABS_VOICE_ID")
     
@@ -114,6 +79,7 @@ def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str
 
 def test_openrouter(prompt="Write a 2-sentence fun fact about space.") -> (bool, str):
     """Test the OpenRouter API key."""
+    # Use environment variable if module variable is None
     api_key = OPENROUTER_API_KEY or os.getenv("OPENROUTER_API_KEY")
     
     if not api_key:

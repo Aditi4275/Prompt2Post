@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    from src.utils.ai_services import generate_script, generate_audio, generate_hashtags, test_openrouter
+    from src.utils.ai_services import generate_script, generate_audio, test_openrouter
     from src.utils.video_processing import add_text_overlay, merge_audio_video
     from src.utils.helpers import require_bin, select_random_fragment
 except ImportError as e:
@@ -91,7 +91,7 @@ if generate_button:
         st.stop()
         
     if not OPENROUTER_API_KEY or not ELEVENLABS_API_KEY or not VOICE_ID:
-        st.error("Missing API keys! Please configure your API keys in the sidebar.")
+        st.error("Missing API keys! Please configure your API keys")
         st.stop()
     
     try:
@@ -115,37 +115,29 @@ if generate_button:
         script = generate_script(topic)
         progress_bar.progress(40)
         
-        # Step 3: Generate hashtags
-        status_text.text(f"🏷️ Suggested hashtags for '{topic}'...")
-        try:
-            hashtags = generate_hashtags(topic)
-        except Exception as e:
-            st.warning(f"Could not generate hashtags: {e}. Using default hashtags.")
-            hashtags = "#shorts #ai #trending #viral"
-        progress_bar.progress(50)
         
-        # Step 4: Generate audio
+        # Step 3: Generate audio
         status_text.text("🎙️ Generating voiceover...")
         audio_path = generate_audio(script, "voiceover.mp3")
         progress_bar.progress(60)
         
-        # Step 5: Select random video fragment
+        # Step 4: Select random video fragment
         status_text.text("🎬 Selecting video fragment...")
         fragment_path = select_random_fragment()
         progress_bar.progress(70)
         
-        # Step 6: Add text overlay
+        # Step 5: Add text overlay
         status_text.text("📝 Adding text overlay...")
         video_with_text = "video_with_text.mp4"
         add_text_overlay(fragment_path, script, video_with_text)
         progress_bar.progress(80)
         
-        # Step 7: Merge audio and video
+        # Step 6: Merge audio and video
         status_text.text("🎥 Creating final video...")
         Path("outputs").mkdir(exist_ok=True)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         final_video = f"outputs/video_{timestamp}.mp4"
-        merge_audio_video(video_with_text, audio_path, final_video)
+        merge_audio_video(video_wsith_text, audio_path, final_video)
         progress_bar.progress(90)
         
         # Clean up temporary files
@@ -182,7 +174,8 @@ if generate_button:
             st.subheader("📝 Generated Script")
             st.text_area("", value=script, height=200)
 
-            st.subheader("🏷️ Suggested Hashtags")
+            st.subheader("#️⃣ Suggested Hashtags")
+            hashtags = "#shorts #ai #trending #viral #funny #facts #storytime #gaming"
             st.text_area("", value=hashtags, height=100)
             
             st.subheader("📊 Video Details")
