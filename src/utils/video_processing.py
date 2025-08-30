@@ -6,7 +6,6 @@ from src.utils.helpers import format_text_for_video
 def add_text_overlay(video_path: str, text: str, output_path: str) -> str:
     """Add text overlay to a video."""
     try:
-        # Format text for better display (wrap long lines)
         formatted_text = format_text_for_video(text)
         
         cmd = [
@@ -63,7 +62,6 @@ def create_video_from_script(script_text: str, out_path="outputs/black_vo.mp4"):
     out_dir.mkdir(parents=True, exist_ok=True)
 
     try:
-        # Probe audio duration
         dur_cmd = [
             "ffprobe", "-v", "error",
             "-show_entries", "format=duration",
@@ -75,7 +73,6 @@ def create_video_from_script(script_text: str, out_path="outputs/black_vo.mp4"):
         raise RuntimeError(f"Failed to read audio duration: {e}")
 
     black_tmp = "black.mp4"
-    # Create black video slightly longer than audio, then cut shortest at merge
     cmd_black = [
         "ffmpeg", "-y",
         "-f", "lavfi", "-i", "color=c=black:s=1080x1920:r=60",
@@ -85,7 +82,6 @@ def create_video_from_script(script_text: str, out_path="outputs/black_vo.mp4"):
     ]
     subprocess.run(cmd_black, check=True)
 
-    # Merge black video with audio
     cmd_merge = [
         "ffmpeg", "-y",
         "-i", black_tmp,
