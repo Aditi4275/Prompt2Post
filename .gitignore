@@ -29,8 +29,7 @@ Thumbs.db
 *.m4a
 *.log
 
-# Video fragments and generated videos
-templates/
+# Generated videos (but not the templates)
 outputs/
 *.mp4
 *.mov
@@ -43,3 +42,10 @@ outputs/
 
 # Test and cache files
 *.pytest_cache/
+
+# Temporary files
+test_output.mp4
+video_with_text.mp4
+voiceover.mp3
+
+templates/

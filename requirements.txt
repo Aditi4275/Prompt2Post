@@ -1,5 +1,5 @@
-dotenv
-requests
-streamlit
-pytrends
-elevenlabs
+streamlit==1.48.1
+python-dotenv==1.1.1
+requests==2.32.4
+pytrends==4.9.2
+elevenlabs==2.9.2
