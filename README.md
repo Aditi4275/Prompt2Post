@@ -8,10 +8,9 @@ Create stunning short videos with AI-generated scripts and voiceovers in minutes
 - 📝 **AI Script Generation** – Harness the **OpenRouter API** to create concise, engaging video scripts from prompts or trending topics.
 - 🎙 **AI Voiceover Generation** – Convert scripts into natural-sounding speech using **ElevenLabs**.
 - 🎥 **Automated Video Creation** – Merge visuals with AI voiceovers into a ready-to-share video file.
-- 🖥 **Two Ways to Use**:
+- 🖥 ** Ho to Use** - 
   - **Streamlit Web App (`app.py`)** – Interactive, beginner-friendly interface.
-  - **Command-Line Interface (`cli.py`)** – Perfect for power users & batch processing.
-
+  
 ## 🛠️ **Getting Started**
 
 ### Prerequisites
@@ -56,29 +55,9 @@ To run the interactive web application:
 streamlit run app.py
 ```
 
-Or use the provided startup script:
-
-```bash
-./start_app.sh
-```
-
 - Select a trending topic or enter your own.
 - Generate your video with a click!
 
-
-### Command-Line Interface (CLI) Tool
-
-To use the CLI version of the video maker:
-
-```bash
-python cli.py
-```
-Follow the prompts to select a video and generate a voiceover.
-
-
-## Deployment
-
-For deployment instructions, see `README_STREAMLIT.md` which contains specific guidance for deploying to Streamlit Cloud.
 
 
 💡 Tip: Use the CLI for automation & batch processing, and the Streamlit app for experimentation & creativity!
