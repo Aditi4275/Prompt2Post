@@ -24,7 +24,7 @@ Create stunning short videos with AI-generated scripts and voiceovers in minutes
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/Aditi4275/Prompt2Post.git 
-    cd tr
+    cd Prompt2Post
     ```
 2.  **Create a virtual environment (recommended):**
     ```bash
