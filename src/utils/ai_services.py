@@ -1,7 +1,18 @@
 import requests
 import json
 import os
-from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID, OPENROUTER_URL, ELEVENLABS_TTS_URL, MODEL_ID
+
+# Try importing from the config module, with fallback to environment variables
+try:
+    from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID, OPENROUTER_URL, ELEVENLABS_TTS_URL, MODEL_ID
+except ImportError:
+    # Fallback to environment variables if the config module is not accessible
+    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+    ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
+    VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
+    OPENROUTER_URL = os.getenv("OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/completions")
+    ELEVENLABS_TTS_URL = os.getenv("ELEVENLABS_TTS_URL", "https://api.elevenlabs.io/v1/text-to-speech")
+    MODEL_ID = os.getenv("MODEL_ID", "openrouter/auto")
 
 def generate_script(topic: str) -> str:
     """Generate a script using OpenRouter API."""
