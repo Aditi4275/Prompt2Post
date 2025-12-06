@@ -102,7 +102,7 @@ if generate_button:
         
         # Step 3: Generate audio
         status_text.text("🎙️ Generating voiceover...")
-        audio_path = generate_audio(script, "voiceover.mp3")
+        audio_path = generate_audio(script, "voiceover.wav")
         progress_bar.progress(60)
         
         # Step 4: Select random video fragment
@@ -126,7 +126,7 @@ if generate_button:
         
         # Clean up temporary files
         try:
-            Path("voiceover.mp3").unlink(missing_ok=True)
+            Path("voiceover.wav").unlink(missing_ok=True)
             Path("video_with_text.mp4").unlink(missing_ok=True)
         except OSError:
             pass

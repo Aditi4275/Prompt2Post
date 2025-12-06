@@ -1,9 +1,10 @@
 import requests
 import json
-import asyncio
-import edge_tts
+import soundfile as sf
+import numpy as np
+from kokoro import KPipeline
 
-from src.config.settings import OPENROUTER_API_KEY, OPENROUTER_URL, MODEL_ID, EDGE_TTS_VOICE
+from src.config.settings import OPENROUTER_API_KEY, OPENROUTER_URL, MODEL_ID, KOKORO_VOICE
 
 
 def _make_request(url: str, headers: dict, json_data: dict = None, timeout: int = 30, method: str = "POST") -> requests.Response:
@@ -49,22 +50,34 @@ def generate_script(topic: str) -> str:
         raise RuntimeError(f"Unexpected OpenRouter response format: {e}")
 
 
-async def _generate_audio_async(text: str, output_file: str, voice: str) -> None:
-    """Async helper to generate audio using edge-tts."""
-    communicate = edge_tts.Communicate(text, voice)
-    await communicate.save(output_file)
-
-
-def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str:
-    """Generate audio using Edge TTS."""
+def generate_audio(script_text: str, output_audio: str = "voiceover.wav") -> str:
+    """Generate audio using Kokoro TTS."""
     if not script_text or not script_text.strip():
         raise ValueError("Script text is empty. Cannot generate audio.")
     
     try:
-        asyncio.run(_generate_audio_async(script_text, output_audio, EDGE_TTS_VOICE))
+        # Initialize pipeline (lang_code='a' for American English)
+        # TODO: Make lang_code configurable if needed
+        pipeline = KPipeline(lang_code='a') 
+        
+        # Generate audio
+        generator = pipeline(script_text, voice=KOKORO_VOICE, speed=1)
+        
+        # Collect audio segments
+        audio_segments = []
+        for _, _, audio in generator:
+            audio_segments.append(audio)
+            
+        if not audio_segments:
+            raise RuntimeError("No audio generated.")
+            
+        # Concatenate and save
+        final_audio = np.concatenate(audio_segments)
+        sf.write(output_audio, final_audio, 24000)
+        
         return output_audio
     except Exception as e:
-        raise RuntimeError(f"Edge TTS generation failed: {e}")
+        raise RuntimeError(f"Kokoro TTS generation failed: {e}")
 
 
 
