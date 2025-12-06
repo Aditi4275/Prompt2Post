@@ -74,8 +74,8 @@ def format_text_for_video(text: str, max_chars_per_line: int = 40) -> str:
         if current_line:
             lines.append(" ".join(current_line))
         
-        formatted_text = "\n".join(lines).replace("'", "'\"'\"'")
+        formatted_text = "\n".join(lines)
         return formatted_text
     except Exception as e:
-        return text.replace("'", "'\"'\"'")
+        return text
 
