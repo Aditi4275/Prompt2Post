@@ -1,6 +1,9 @@
 import os
+from dotenv import load_dotenv
 
-# API Keys - will fall back to environment variables if not set directly
+load_dotenv()
+
+# API Keys
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")

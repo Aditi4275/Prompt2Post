@@ -8,21 +8,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    from src.utils.ai_services import generate_script, generate_audio, test_openrouter
+    from src.utils.ai_services import generate_script, generate_audio
+
     from src.utils.video_processing import add_text_overlay, merge_audio_video
     from src.utils.helpers import require_bin, select_random_fragment
+    from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID
 except ImportError as e:
     st.error(f"Error importing modules: {e}")
     st.stop()
 
-try:
-    OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-    ELEVENLABS_API_KEY = st.secrets["ELEVENLABS_API_KEY"]
-    VOICE_ID = st.secrets["ELEVENLABS_VOICE_ID"]
-except:
-    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-    ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
-    VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 
 st.set_page_config(
     page_title="Prompt2Post",
@@ -102,13 +96,7 @@ if generate_button:
         progress_bar = st.progress(0)
         status_text = st.empty()
         
-        # Step 1: Test OpenRouter API
-        status_text.text("🔍 Testing API connections...")
-        progress_bar.progress(10)
-        ok, msg = test_openrouter(f"Write a short 2-3 sentence about {topic}.")
-        if not ok:
-            st.warning("OpenRouter test failed, but continuing anyway...")
-        progress_bar.progress(20)
+
         
         # Step 2: Generate script
         status_text.text(f"✍️ Generating script for '{topic}'...")
