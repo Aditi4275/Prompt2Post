@@ -1,7 +1,7 @@
-FROM ghcr.io/astral-sh/uv:python3.12-alpine
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 # Install system dependencies
-RUN apk add --no-cache ffmpeg git ttf-dejavu
+RUN apt-get update && apt-get install -y ffmpeg git fonts-dejavu && rm -rf /var/lib/apt/lists/*
 
 
 # Set working directory

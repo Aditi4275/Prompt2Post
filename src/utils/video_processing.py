@@ -19,7 +19,7 @@ def add_text_overlay(video_path: str, text: str, output_path: str) -> str:
         cmd = [
             "ffmpeg", "-y",
             "-i", video_path,
-            "-vf", f"drawtext=fontfile=/usr/share/fonts/ttf-dejavu/DejaVuSans-Bold.ttf:"
+            "-vf", f"drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
                    f"textfile='{safe_text_file_path}':"
                    f"fontcolor=white:"
                    f"fontsize=24:"
