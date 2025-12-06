@@ -25,14 +25,9 @@ Create stunning short videos with AI-generated scripts and voiceovers in minutes
     git clone https://github.com/Aditi4275/Prompt2Post.git 
     cd Prompt2Post
     ```
-2.  **Create a virtual environment (recommended):**
+2.  **Install dependencies:**
     ```bash
-    python -m venv .venv
-    source .venv/bin/activate  
-    ```
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
+    uv sync
     ```
 
 ### 🔑 API Keys Setup
@@ -52,12 +47,8 @@ This project requires API keys for OpenRouter and ElevenLabs.
 To run the interactive web application:
 
 ```bash
-streamlit run app.py
+uv run streamlit run app.py
 ```
 
 - Select a trending topic or enter your own.
 - Generate your video with a click!
-
-
-
-💡 Tip: Use the CLI for automation & batch processing, and the Streamlit app for experimentation & creativity!

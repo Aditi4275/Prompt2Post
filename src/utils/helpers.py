@@ -25,7 +25,8 @@ def get_duration(path: str) -> float:
 
 def list_video_fragments(folder_path=None):
     if folder_path is None:
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # Go up 3 levels: src/utils/helpers.py -> src/utils -> src -> root
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         folder_path = os.path.join(base_dir, "templates")
 
     """List all video fragments in the templates directory."""
