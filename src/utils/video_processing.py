@@ -6,13 +6,16 @@ from src.utils.helpers import format_text_for_video
 def add_text_overlay(video_path: str, text: str, output_path: str) -> str:
     """Add text overlay to a video."""
     try:
-        formatted_text = format_text_for_video(text)
+        # Escape special characters for FFmpeg drawtext
+        # 1. Escape single quotes with backslash
+        # 2. Escape colons with backslash
+        safe_text = formatted_text.replace("'", r"\'").replace(":", r"\:")
         
         cmd = [
             "ffmpeg", "-y",
             "-i", video_path,
             "-vf", f"drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:"
-                   f"text='{formatted_text}':"
+                   f"text='{safe_text}':"
                    f"fontcolor=white:"
                    f"fontsize=24:"
                    f"box=1:"
