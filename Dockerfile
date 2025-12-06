@@ -18,12 +18,12 @@ COPY . .
 
 # Build arguments
 ARG OPENROUTER_API_KEY
-ARG ELEVENLABS_API_KEY
-ARG ELEVENLABS_VOICE_ID
+
+# Set environment variables
+ENV OPENROUTER_API_KEY=$OPENROUTER_API_KEY
 
 # Expose port
 EXPOSE 8501
 
 # Run the application
 CMD ["uv", "run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-

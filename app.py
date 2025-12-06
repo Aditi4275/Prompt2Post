@@ -8,7 +8,7 @@ try:
 
     from src.utils.video_processing import add_text_overlay, merge_audio_video
     from src.utils.helpers import require_bin, select_random_fragment
-    from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID
+    from src.config.settings import OPENROUTER_API_KEY
 except ImportError as e:
     st.error(f"Error importing modules: {e}")
     st.stop()
@@ -80,7 +80,7 @@ if generate_button:
         st.error("Please select a topic or enter a custom one!")
         st.stop()
         
-    if not OPENROUTER_API_KEY or not ELEVENLABS_API_KEY or not VOICE_ID:
+    if not OPENROUTER_API_KEY:
         st.error("Missing API keys! Please configure your API keys")
         st.stop()
     

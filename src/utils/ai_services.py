@@ -1,8 +1,9 @@
 import requests
 import json
+import asyncio
+import edge_tts
 
-from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID, OPENROUTER_URL, MODEL_ID
-
+from src.config.settings import OPENROUTER_API_KEY, OPENROUTER_URL, MODEL_ID, EDGE_TTS_VOICE
 
 
 def _make_request(url: str, headers: dict, json_data: dict = None, timeout: int = 30, method: str = "POST") -> requests.Response:
@@ -48,32 +49,19 @@ def generate_script(topic: str) -> str:
         raise RuntimeError(f"Unexpected OpenRouter response format: {e}")
 
 
-from elevenlabs import ElevenLabs
+async def _generate_audio_async(text: str, output_file: str, voice: str) -> None:
+    """Async helper to generate audio using edge-tts."""
+    communicate = edge_tts.Communicate(text, voice)
+    await communicate.save(output_file)
+
 
 def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str:
-    """Generate audio using ElevenLabs API."""
-    if not ELEVENLABS_API_KEY:
-        raise EnvironmentError("ELEVENLABS_API_KEY is not set.")
-    if not VOICE_ID:
-        raise EnvironmentError("ELEVENLABS_VOICE_ID is not set.")
-    
-    client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
-    
+    """Generate audio using Edge TTS."""
     try:
-        audio = client.text_to_speech.convert(
-            voice_id=VOICE_ID,
-            model_id="eleven_multilingual_v2",
-            text=script_text,
-            voice_settings={"stability": 0.5, "similarity_boost": 0.75}
-        )
-        
-        # audio is a generator, we need to consume it
-        with open(output_audio, "wb") as f:
-            for chunk in audio:
-                f.write(chunk)
-                
+        asyncio.run(_generate_audio_async(script_text, output_audio, EDGE_TTS_VOICE))
         return output_audio
     except Exception as e:
-        raise RuntimeError(f"ElevenLabs generation failed: {e}")
+        raise RuntimeError(f"Edge TTS generation failed: {e}")
+
 
 
