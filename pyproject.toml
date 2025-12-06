@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "edge-tts==6.1.10",
+    "edge-tts @ git+https://github.com/rany2/edge-tts.git@master",
     "python-dotenv==1.1.1",
     "pytrends==4.9.2",
     "requests==2.32.4",
