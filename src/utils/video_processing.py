@@ -5,18 +5,22 @@ from src.utils.helpers import format_text_for_video
 
 def add_text_overlay(video_path: str, text: str, output_path: str) -> str:
     """Add text overlay to a video."""
+    text_file_path = os.path.abspath("temp_text_overlay.txt")
     try:
-        # Escape special characters for FFmpeg drawtext
-        # 1. Escape single quotes with backslash
-        # 2. Escape colons with backslash
         formatted_text = format_text_for_video(text)
-        safe_text = formatted_text.replace("'", r"\'").replace(":", r"\:")
+        
+        # Write text to a temporary file to avoid command line escaping issues
+        with open(text_file_path, "w", encoding="utf-8") as f:
+            f.write(formatted_text)
+        
+        # Escape the path for FFmpeg (just in case, though usually fine on Linux)
+        safe_text_file_path = text_file_path.replace(":", r"\:")
         
         cmd = [
             "ffmpeg", "-y",
             "-i", video_path,
             "-vf", f"drawtext=fontfile=/usr/share/fonts/ttf-dejavu/DejaVuSans-Bold.ttf:"
-                   f"text='{safe_text}':"
+                   f"textfile='{safe_text_file_path}':"
                    f"fontcolor=white:"
                    f"fontsize=24:"
                    f"box=1:"
@@ -34,6 +38,9 @@ def add_text_overlay(video_path: str, text: str, output_path: str) -> str:
         raise RuntimeError(f"FFmpeg error: {e.stderr.decode()}")
     except Exception as e:
         raise RuntimeError(f"Error adding text overlay: {str(e)}")
+    finally:
+        if os.path.exists(text_file_path):
+            os.remove(text_file_path)
 
 def merge_audio_video(video_path: str, audio_path: str, output_path: str = "final_video.mp4") -> str:
     """Merge audio with video."""
