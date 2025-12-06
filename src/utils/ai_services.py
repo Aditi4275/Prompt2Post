@@ -57,6 +57,9 @@ async def _generate_audio_async(text: str, output_file: str, voice: str) -> None
 
 def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str:
     """Generate audio using Edge TTS."""
+    if not script_text or not script_text.strip():
+        raise ValueError("Script text is empty. Cannot generate audio.")
+    
     try:
         asyncio.run(_generate_audio_async(script_text, output_audio, EDGE_TTS_VOICE))
         return output_audio
