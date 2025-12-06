@@ -1,8 +1,8 @@
 import requests
 import json
-import os
 
-from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID, OPENROUTER_URL, ELEVENLABS_TTS_URL, MODEL_ID
+from src.config.settings import OPENROUTER_API_KEY, ELEVENLABS_API_KEY, VOICE_ID, OPENROUTER_URL, MODEL_ID
+
 
 
 def _make_request(url: str, headers: dict, json_data: dict = None, timeout: int = 30, method: str = "POST") -> requests.Response:
@@ -48,6 +48,8 @@ def generate_script(topic: str) -> str:
         raise RuntimeError(f"Unexpected OpenRouter response format: {e}")
 
 
+from elevenlabs import ElevenLabs
+
 def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str:
     """Generate audio using ElevenLabs API."""
     if not ELEVENLABS_API_KEY:
@@ -55,22 +57,23 @@ def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str
     if not VOICE_ID:
         raise EnvironmentError("ELEVENLABS_VOICE_ID is not set.")
     
-    url = f"{ELEVENLABS_TTS_URL}/{VOICE_ID}"
-    headers = {
-        "Accept": "audio/mpeg",
-        "Content-Type": "application/json",
-        "xi-api-key": ELEVENLABS_API_KEY
-    }
+    client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
     
-    data = {
-        "text": script_text,
-        "model_id": "eleven_multilingual_v2",
-        "voice_settings": {"stability": 0.5, "similarity_boost": 0.75}
-    }
-    
-    resp = _make_request(url, headers, data, timeout=60)
-    
-    with open(output_audio, "wb") as f:
-        f.write(resp.content)
-    return output_audio
+    try:
+        audio = client.text_to_speech.convert(
+            voice_id=VOICE_ID,
+            model_id="eleven_multilingual_v2",
+            text=script_text,
+            voice_settings={"stability": 0.5, "similarity_boost": 0.75}
+        )
+        
+        # audio is a generator, we need to consume it
+        with open(output_audio, "wb") as f:
+            for chunk in audio:
+                f.write(chunk)
+                
+        return output_audio
+    except Exception as e:
+        raise RuntimeError(f"ElevenLabs generation failed: {e}")
+
 

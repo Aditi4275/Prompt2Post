@@ -1,11 +1,7 @@
-import os
 import time
-import random
 from pathlib import Path
 import streamlit as st
-from dotenv import load_dotenv
 
-load_dotenv()
 
 try:
     from src.utils.ai_services import generate_script, generate_audio
@@ -130,8 +126,8 @@ if generate_button:
         
         # Clean up temporary files
         try:
-            os.remove("voiceover.mp3")
-            os.remove("video_with_text.mp4")
+            Path("voiceover.mp3").unlink(missing_ok=True)
+            Path("video_with_text.mp4").unlink(missing_ok=True)
         except OSError:
             pass
             
@@ -153,7 +149,8 @@ if generate_button:
                 st.download_button(
                     label="📥 Download Video",
                     data=file,
-                    file_name=os.path.basename(final_video),
+                    file_name=Path(final_video).name,
+
                     mime="video/mp4",
                     use_container_width=True
                 )
