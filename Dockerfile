@@ -19,7 +19,6 @@ COPY . .
 # Build arguments
 ARG OPENROUTER_API_KEY
 
-
 # Expose port
 EXPOSE 8501
 
