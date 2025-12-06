@@ -19,8 +19,6 @@ COPY . .
 # Build arguments
 ARG OPENROUTER_API_KEY
 
-# Set environment variables
-ENV OPENROUTER_API_KEY=$OPENROUTER_API_KEY
 
 # Expose port
 EXPOSE 8501
