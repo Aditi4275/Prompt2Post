@@ -37,8 +37,6 @@ This project requires API keys for OpenRouter and ElevenLabs.
 1.  **Create a `.env` file:** In the root directory of the project, create a file named `.env`.
 2.  **Add your API keys to `.env`:**
     *   Replace `"YOUR_OPENROUTER_API_KEY"` with your key from [OpenRouter](https://openrouter.ai/).
-    *   Replace `"YOUR_ELEVENLABS_API_KEY"` with your key from [ElevenLabs](https://elevenlabs.io/).
-    *   Replace `"YOUR_ELEVENLABS_VOICE_ID"` with the ID of the voice you wish to use from ElevenLabs.
 
 ## 📦 Usage
 
