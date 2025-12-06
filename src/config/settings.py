@@ -13,4 +13,5 @@ OPENROUTER_URL = os.getenv("OPENROUTER_URL", "https://openrouter.ai/api/v1/chat/
 MODEL_ID = os.getenv("MODEL_ID", "openrouter/auto")
 
 # TTS Settings
-KOKORO_VOICE = "af_heart"
+GOOGLE_TTS_LANG = "en"
+GOOGLE_TTS_TLD = "co.uk"

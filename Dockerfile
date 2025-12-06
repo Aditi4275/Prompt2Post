@@ -1,7 +1,7 @@
 FROM ghcr.io/astral-sh/uv:python3.12-alpine
 
 # Install system dependencies
-RUN apk add --no-cache ffmpeg espeak-ng libsndfile build-base ttf-dejavu
+RUN apk add --no-cache ffmpeg git ttf-dejavu
 
 
 # Set working directory

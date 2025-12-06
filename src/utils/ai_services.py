@@ -1,10 +1,8 @@
 import requests
 import json
-import soundfile as sf
-import numpy as np
-from kokoro import KPipeline
+from gtts import gTTS
 
-from src.config.settings import OPENROUTER_API_KEY, OPENROUTER_URL, MODEL_ID, KOKORO_VOICE
+from src.config.settings import OPENROUTER_API_KEY, OPENROUTER_URL, MODEL_ID, GOOGLE_TTS_LANG, GOOGLE_TTS_TLD
 
 
 def _make_request(url: str, headers: dict, json_data: dict = None, timeout: int = 30, method: str = "POST") -> requests.Response:
@@ -50,34 +48,17 @@ def generate_script(topic: str) -> str:
         raise RuntimeError(f"Unexpected OpenRouter response format: {e}")
 
 
-def generate_audio(script_text: str, output_audio: str = "voiceover.wav") -> str:
-    """Generate audio using Kokoro TTS."""
+def generate_audio(script_text: str, output_audio: str = "voiceover.mp3") -> str:
+    """Generate audio using Google TTS."""
     if not script_text or not script_text.strip():
         raise ValueError("Script text is empty. Cannot generate audio.")
     
     try:
-        # Initialize pipeline (lang_code='a' for American English)
-        # TODO: Make lang_code configurable if needed
-        pipeline = KPipeline(lang_code='a') 
-        
-        # Generate audio
-        generator = pipeline(script_text, voice=KOKORO_VOICE, speed=1)
-        
-        # Collect audio segments
-        audio_segments = []
-        for _, _, audio in generator:
-            audio_segments.append(audio)
-            
-        if not audio_segments:
-            raise RuntimeError("No audio generated.")
-            
-        # Concatenate and save
-        final_audio = np.concatenate(audio_segments)
-        sf.write(output_audio, final_audio, 24000)
-        
+        tts = gTTS(text=script_text, lang=GOOGLE_TTS_LANG, tld=GOOGLE_TTS_TLD)
+        tts.save(output_audio)
         return output_audio
     except Exception as e:
-        raise RuntimeError(f"Kokoro TTS generation failed: {e}")
+        raise RuntimeError(f"Google TTS generation failed: {e}")
 
 
 
