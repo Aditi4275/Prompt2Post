@@ -9,6 +9,7 @@ def add_text_overlay(video_path: str, text: str, output_path: str) -> str:
         # Escape special characters for FFmpeg drawtext
         # 1. Escape single quotes with backslash
         # 2. Escape colons with backslash
+        formatted_text = format_text_for_video(text)
         safe_text = formatted_text.replace("'", r"\'").replace(":", r"\:")
         
         cmd = [
